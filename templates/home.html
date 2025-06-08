@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graphify - Instant Data Visualizations</title>
+  <meta name="description" content="Transform your CSV or Excel files into stunning, interactive graphs instantly with Graphify. Simplify data visualization effortlessly.">
+  <meta name="keywords" content="Graphify, Graph Generator, Data Visualization, CSV to Graph, Excel Chart, Interactive Charts, Data Analysis Tool, Online Graph Maker">
+  <meta name="author" content="GraphifyAI">
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    /* CSS Variables for Theming */
+    :root {
+      --primary-color: #5b21b6; /* A deep, rich purple */
+      --primary-light: #8b5cf6; /* Lighter shade of purple */
+      --accent-color: #6d28d9; /* Slightly darker purple for accents */
+      --text-dark: #f0f0f0; /* Light text on dark background */
+      --text-light: #d1d5db; /* Slightly darker light text */
+      --bg-gradient-start: #1a202c; /* Dark blue-grey */
+      --bg-gradient-mid: #2d3748; /* Medium blue-grey */
+      --bg-gradient-end: #4a5568; /* Lighter blue-grey */
+      --card-bg: rgba(25, 25, 35, 0.8); /* Dark translucent card */
+      --border-color: rgba(255, 255, 255, 0.1);
+      --box-shadow-light: 0 10px 30px rgba(0, 0, 0, 0.4);
+      --box-shadow-hover: 0 15px 45px rgba(0, 0, 0, 0.6);
+      --border-radius-lg: 24px;
+      --border-radius-md: 16px;
+      --font-heading: 'Montserrat', sans-serif;
+      --font-body: 'Lato', sans-serif;
+    }
+
+    /* Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-mid), var(--bg-gradient-end));
+      color: var(--text-dark);
+      height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      overflow: hidden; /* For background particles */
+      position: relative;
+    }
+
+    /* Animated Background Particles */
+    .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .particles li {
+        position: absolute;
+        display: block;
+        list-style: none;
+        width: 20px;
+        height: 20px;
+        background: rgba(91, 33, 182, 0.2); /* Primary color with transparency */
+        animation: animate-particles 25s linear infinite;
+        bottom: -180px;
+        border-radius: 50%;
+    }
+
+    .particles li:nth-child(1) { left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+    .particles li:nth-child(2) { left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+    .particles li:nth-child(3) { left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+    .particles li:nth-child(4) { left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+    .particles li:nth-child(5) { left: 65%; width: 20px; height: 20px; animation-delay: 0s; }
+    .particles li:nth-child(6) { left: 75%; width: 110px; height: 110px; animation-delay: 3s; }
+    .particles li:nth-child(7) { left: 35%; width: 150px; height: 150px; animation-delay: 7s; }
+    .particles li:nth-child(8) { left: 50%; width: 25px; height: 25px; animation-delay: 15s; animation-duration: 45s; }
+    .particles li:nth-child(9) { left: 20%; width: 15px; height: 15px; animation-delay: 2s; animation-duration: 35s; }
+    .particles li:nth-child(10) { left: 85%; width: 150px; height: 150px; animation-delay: 0s; animation-duration: 11s; }
+
+    @keyframes animate-particles {
+        0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 50%; }
+        100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
+    }
+
+    /* Main Container (Card) */
+    .container {
+      background: var(--card-bg);
+      padding: 3rem;
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--box-shadow-light);
+      text-align: center;
+      max-width: 550px; /* Slightly larger for impact */
+      width: 100%;
+      animation: fadeInSlide 1s ease-out forwards;
+      position: relative; /* Above particles */
+      z-index: 10;
+      border: 1px solid var(--border-color); /* Subtle border */
+      backdrop-filter: blur(8px); /* Frosted glass effect */
+      -webkit-backdrop-filter: blur(8px); /* Safari support */
+      transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+    }
+
+    .container:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--box-shadow-hover);
+    }
+
+    /* Heading */
+    h1 {
+      font-family: var(--font-heading);
+      font-size: 2.8rem; /* Larger for impact */
+      color: var(--primary-light);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+      position: relative;
+      animation: slideInTop 1s ease-out 0.2s forwards;
+      opacity: 0;
+      transform: translateY(-30px);
+      text-shadow: 0 0 15px rgba(139, 92, 246, 0.5); /* Subtle glowing text */
+    }
+
+    h1 span {
+        color: var(--text-dark); /* Highlighted part */
+        text-shadow: none; /* Remove glow from this part if desired */
+    }
+
+    /* Description Paragraph */
+    p {
+      font-family: var(--font-body);
+      color: var(--text-light);
+      font-size: 1.15rem;
+      margin-bottom: 2.5rem;
+      animation: fadeIn 1s ease-out 0.4s forwards;
+      opacity: 0;
+    }
+
+    /* Call to Action Button */
+    .cta-button {
+      background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+      color: #fff;
+      text-decoration: none;
+      padding: 1.1rem 3rem; /* More generous padding */
+      font-weight: 700; /* Bolder */
+      border-radius: 50px; /* Pill shape */
+      box-shadow: 0 8px 25px rgba(91, 33, 182, 0.4); /* Stronger shadow */
+      transition: all 0.3s ease;
+      display: inline-flex; /* For icon alignment */
+      align-items: center;
+      gap: 10px; /* Space between text and icon */
+      font-size: 1.1rem; /* Slightly larger text */
+      animation: zoomIn 1s ease-out 0.6s forwards;
+      opacity: 0;
+      transform: scale(0.8);
+    }
+
+    .cta-button:hover {
+      background: linear-gradient(45deg, var(--accent-color), var(--primary-color)); /* Reverse gradient on hover */
+      transform: translateY(-5px) scale(1.02); /* Lift and slightly enlarge */
+      box-shadow: 0 12px 35px rgba(91, 33, 182, 0.6); /* More prominent shadow on hover */
+    }
+    .cta-button:active {
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 0 6px 20px rgba(91, 33, 182, 0.3);
+    }
+
+    /* Animations */
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideInTop {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 600px) {
+      .container {
+        padding: 2rem;
+        border-radius: var(--border-radius-md);
+      }
+      h1 {
+        font-size: 2.2rem;
+      }
+      p {
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
+      .cta-button {
+        font-size: 1rem;
+        padding: 0.9rem 2.5rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 1.8rem;
+      }
+      p {
+        font-size: 0.9rem;
+      }
+      .cta-button {
+        padding: 0.8rem 2rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <ul class="particles">
+    <li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li>
+  </ul>
+
+  <main class="container" role="main" aria-label="Graphify Homepage">
+    <h1><span>Graph</span>ify</h1>
+    <p>Upload your CSV or Excel file and generate stunning, interactive graphs in seconds. Simplify data visualization effortlessly.</p>
+    <a href="{% url 'input' %}" class="cta-button" aria-label="Start visualizing your data">
+      <i class="fas fa-chart-line"></i> Get Started
+    </a>
+  </main>
+</body>
+</html>
